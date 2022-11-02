@@ -5,9 +5,13 @@ services:
     container_name: grpcservice
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
     ports:
       - "8000:80" 
-      #- "8001:443"
+      - "8001:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
     networks:
       - grpc-network
   
@@ -15,7 +19,7 @@ services:
     container_name: grpcclient
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "GrpcServiceUrl=http://grpcservice:8000"
+      - "GrpcServiceUrl=https://grpcservice:8001"
     networks:
       - grpc-network
     depends_on:
