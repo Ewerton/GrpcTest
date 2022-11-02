@@ -19,7 +19,7 @@ services:
     container_name: grpcclient
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "GrpcServiceUrl=https://grpcservice:8001"
+      - "GrpcServiceUrl=http://grpcservice:8000"
     networks:
       - grpc-network
     depends_on:
