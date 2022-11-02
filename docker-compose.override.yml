@@ -21,7 +21,6 @@ services:
     depends_on:
       - grpcservice
 
-
 networks:
   grpc-network:
-    external: false
+    external: true
