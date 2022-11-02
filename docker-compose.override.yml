@@ -1,0 +1,27 @@
+version: '3.4'
+
+services:
+  grpcservice:
+    container_name: grpcservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8000:80" 
+      #- "8001:443"
+    networks:
+      - grpc-network
+  
+  grpcclient:
+    container_name: grpcclient
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "GrpcServiceUrl=http://grpcservice:8000"
+    networks:
+      - grpc-network
+    depends_on:
+      - grpcservice
+
+
+networks:
+  grpc-network:
+    external: false
