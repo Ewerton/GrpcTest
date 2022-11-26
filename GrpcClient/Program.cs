@@ -14,10 +14,8 @@ namespace GrpcClient
     {
         public static void Main(string[] args)
         {
-            //Console.WriteLine("Hello, World!");
             Delay();
-             CallGrpcService1();
-            //CallGrpcService2();
+            CallGrpcService();
         }
 
         public static void Delay()
@@ -25,10 +23,9 @@ namespace GrpcClient
             System.Threading.Thread.Sleep(3000);
         }
 
-        public static void CallGrpcService1()
+        public static void CallGrpcService()
         {
             string address = System.Environment.GetEnvironmentVariable("GrpcServiceUrl");
-            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
 
             var channel = GrpcChannel.ForAddress(address);
             var client = new Greeter.GreeterClient(channel);
@@ -38,36 +35,5 @@ namespace GrpcClient
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
         }
-
-        public static void CallGrpcService2()
-        {
-            string address = System.Environment.GetEnvironmentVariable("GrpcServiceUrl");
-
-            var channel = CreateAuthenticatedChannel(address);
-            var client = new Greeter.GreeterClient(channel);
-            var reply = client.SayHello(new HelloRequest { Name = "GreeterClient" });
-            Console.WriteLine("Greeting: " + reply.Message);
-            Console.WriteLine("Press any key to exit...");
-        }
-
-        private static GrpcChannel CreateAuthenticatedChannel(string address)
-        {
-            var credentials = CallCredentials.FromInterceptor((context, metadata) =>
-            {
-                if (!string.IsNullOrEmpty(""))
-                {
-                    metadata.Add("Authorization", $"Bearer {""}");
-                }
-                return Task.CompletedTask;
-            });
-
-            var channel = GrpcChannel.ForAddress(address, new GrpcChannelOptions
-            {
-                Credentials = ChannelCredentials.Create(ChannelCredentials.Insecure, credentials),
-                UnsafeUseInsecureChannelCallCredentials = true
-            });
-            return channel;
-        }
-
     }
 }
