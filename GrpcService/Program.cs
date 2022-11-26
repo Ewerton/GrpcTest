@@ -1,4 +1,5 @@
 using GrpcService.Services;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace GrpcService
 {
@@ -17,6 +18,13 @@ namespace GrpcService
                 opt.EnableDetailedErrors = true;
             });
 
+            // Added to make GRPC Call to work!!! https://stackoverflow.com/a/74495702/256925
+            builder.WebHost.ConfigureKestrel(options =>
+            {
+                // Setup a HTTP/2 endpoint without TLS.
+                options.ListenAnyIP(8000, o => o.Protocols = HttpProtocols.Http2);
+            });
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

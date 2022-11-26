@@ -33,7 +33,8 @@ namespace GrpcClient
 
             Console.WriteLine("Greeting: " + reply.Message);
             Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
+            Console.In.ReadLine();
+            //Console.ReadKey();
         }
     }
 }
