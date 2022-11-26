@@ -5,3 +5,4 @@ This Solution has two projects:
 - A Console App (the client to call the Service)
 
 
+*Also, check [this issue](https://github.com/Ewerton/GrpcTest/issues/1)  about calling a insecure Grpc Sevice*
